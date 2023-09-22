@@ -162,9 +162,7 @@ Inventory = [
 Inventory_amount = [5, 1, 1, 6, 0, 0, 0]
 ITEM_DESCRIPTION = {
     "Mushroom": ["Soopah Mahreo in real loife.", "Restores 80 HP", mushroom],
-    "Skinny Mushroom":
-    ["Super Mario Maker reference??1?1", "Restores 160 HP", skinny_mushroom],
-    "1-UP Shroom": ["Revives a dead team member", "Nice!", one_up],
+    "Skinny Mushroom":["Super Mario Maker reference??1?1", "Restores 160 HP", skinny_mushroom], "1-UP Shroom": ["Revives a dead team member", "Nice!", one_up],
     "test": [
         "Gives a lethal dose of poison to the user.",
         "...you can use it to revive the dead..", test
@@ -268,21 +266,21 @@ def roll_hp():  #the HP roller. You lose life slowly
 
     #Warrior's HP
     if Warrior_TARGETHP > Warrior and Warrior <= WAR_MAXHP:  #gaining life
-        Warrior += 10
+        Warrior += 1
     elif Warrior_TARGETHP < Warrior and Warrior > -1:  #losing life
-        Warrior -= 15
+        Warrior -= 1
 
     #Healer's HP
     if Healer_TARGETHP > Healer and Healer <= HEA_MAXHP:  #gaining life
-        Healer += 10
+        Healer += 1
     elif Healer_TARGETHP < Healer and Healer > -1:  #losing life
-        Healer -= 15
+        Healer -= 1
 
     #Brute's HP
     if Brute_TARGETHP > Brute and Brute <= BRU_MAXHP:  #gaining life
-        Brute += 10
+        Brute += 1
     elif Brute_TARGETHP < Brute and Brute > -1:  #losing life
-        Brute -= 15
+        Brute -= 1
 
     #death effect giver
     if Warrior < 1:
@@ -337,8 +335,7 @@ def item_handler(
     global Warrior_TARGETHP, Healer_TARGETHP, Brute_TARGETHP
     global Healer_TARGETPP
 
-    inventory_index = int(choices[affected_player].split("@")
-                          [1])  #take the encoded string and decode it
+    inventory_index = int(choices[affected_player].split("@")[1])  #take the encoded string and decode it
     for_whom = int(choices[affected_player].split("@")[2])
     item_name = Inventory[inventory_index]
 
@@ -350,9 +347,7 @@ def item_handler(
                "on " + PARTY_MEMBER_NAMES[for_whom], " ")
 
     #unpack everything for easier readability
-    item_hp, item_pp, item_effect, HP_addsub, PP_addsub = ITEM_ACTION[
-        item_name][0], ITEM_ACTION[item_name][1], ITEM_ACTION[item_name][
-            3], ITEM_ACTION[item_name][4], ITEM_ACTION[item_name][5],
+    item_hp, item_pp, item_effect, HP_addsub, PP_addsub = ITEM_ACTION[item_name][0], ITEM_ACTION[item_name][1], ITEM_ACTION[item_name][3], ITEM_ACTION[item_name][4], ITEM_ACTION[item_name][5],
 
     if for_whom == 0:
         if HP_addsub == "add":
@@ -361,8 +356,7 @@ def item_handler(
             Warrior_TARGETHP = Warrior_TARGETHP - item_hp
 
         #effect curing
-        if item_effect == "Death" and PARTY_MEMBER_EFFECTS[
-                0] == "Death":  #double check if they are actually dead
+        if item_effect == "Death" and PARTY_MEMBER_EFFECTS[0] == "Death":  #double check if they are actually dead
             Warrior_TARGETHP = WAR_MAXHP
             PARTY_MEMBER_EFFECTS[0] = "---"
 
@@ -398,8 +392,7 @@ def item_handler(
     Inventory_amount[inventory_index] = Inventory_amount[inventory_index] - 1
 
 
-def update_text(
-):  #does the scrolling text thing in RPGs, I am very sorry for the jankiness.
+def update_text():  #does the scrolling text thing in RPGs, I am very sorry for the jankiness.
     global current_line, txtScr
     global txt1_out, txt2_out, txt3_out
     global txt1, txt2, txt3
@@ -469,21 +462,16 @@ class WarriorMoves():
             TA += 4
 
         else:
-            print(
-                f"Taunt is on cooldown, wait {TA} more turns until you can use it again"
-            )
+            print(f"Taunt is on cooldown, wait {TA} more turns until you can use it again")
 
             TA -= 1
 
     def charge():
         global BossHP
-        random_value = random.choice([20, 160, 160, 160])
+        random_value = random.choice([20, 160, 120, 100, 20])
         BossHP -= random_value
         if random_value == 20:
-            printB(
-                PARTY_MEMBER_NAMES[0] + " charged toward " + enemy_name +
-                "                                ",
-                "...but tripped and fell in the process.",
+            printB(PARTY_MEMBER_NAMES[0] + " charged toward " + enemy_name +"                                ","...but tripped and fell in the process.",
                 str(random_value) + " damage to " + enemy_name)
         else:
             printB(PARTY_MEMBER_NAMES[0] + " charged toward " + enemy_name,
@@ -983,7 +971,12 @@ def menu_load(button):  #Button 0 is B. Button 1 is A
                 MENU_OPEN.play()
 
             elif menu_col == 2:  #spare
-                pass
+                menu_type = 0
+                cursor_x = -16
+                cursor_y = 24
+                menu_col = 0
+                menu_row = 0
+                printB("There is no way in the world that you will be", " able to tame this beast", " ")
 
     elif menu_type == 1 and button == 0:  #when on the main menu and the B button is pressed
         current_member -= 1

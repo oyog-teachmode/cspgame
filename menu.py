@@ -75,41 +75,23 @@ def cursor_handler(dpad):  #0 is right. 1 is left. 2 is up. 3 is down
             cursor2_x = cursor2_x - 121
 
 
+def menu_load(input):
+    global menu_type
+    if input == 0:
+        menu_type = menu_type - 1
+    if input == 1:
+        menu_type = menu_type + 1
+    print(menu_type)
+    
+
 def menu_loop():
-    pygame.display.set_caption('There is no time to rest and manage items in the Pizza Tower')
-    screen.blit(context_menu, (20, 30))
+    global code_bank
+    screen.blit(context_menu, (00, 00))
     screen.blit(cur, (cursor_x, cursor_y))
     screen.blit(cur2, (cursor2_x, 360))
-  
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        #for right now it's just a boss engine with more to be added
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w or event.key == pygame.K_UP:  #0 is right. 1 is left. 2 is up. 3 is down
-                cursor_handler(2)
-                MENU_CLICK.play()
-            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                cursor_handler(1)
-                MENU_CLICK.play()
-
-            if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                cursor_handler(3)
-                MENU_CLICK.play()
-
-            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                cursor_handler(0)
-                MENU_CLICK.play()
-
-            if event.key == pygame.K_j or event.key == pygame.K_z:
-                menu_load(0)
-
-            if event.key == pygame.K_k or event.key == pygame.K_x:
-                menu_load(1)
-
-            if event.key == pygame.K_1:
-                print("WARNING: THE WINDOW IS NO LONGER RUNNING \n\n ________DEBUG MENU_______ \n 1. Reset the Boss \n 2. Set Everyone's HP to MAX and restore PP\n")
-                debug(int(input("Pick your number:")))
+    font = pygame.font.Font("Ubuntu.ttf", 21)
+    textline = font.render("Press K or Z to proceed into the battle", False, (255, 255, 255))
+    screen.blit(textline, (25, 410))  #BGLAYER0
 
 
 #End of While Loop

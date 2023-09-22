@@ -1,4 +1,4 @@
-menu - Mario Kart DS Options Menu
+menu - Deltarune: Dogcheck
 
 00 - Silence
 02 - Miitopia - Ice Battle

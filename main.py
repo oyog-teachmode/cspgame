@@ -7,7 +7,7 @@ from level import Level
 #initiation
 pygame.init()
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption('The place.')
+pygame.display.set_caption('2D RPG Engine')
 pygame.font.init()
 font = pygame.font.Font("Ubuntu.ttf", 21)  #text box text
 
@@ -20,6 +20,9 @@ level = Level(level_map, screen)
 
 #variable initiation
 
+#pyinstaller --onefile -w main.py
+
+
 #jihugyftdresrtyuhiytxdzs
 print("Initiating Sound...")
 pygame.mixer.pre_init(32000, -16, 16, 512)
@@ -28,7 +31,7 @@ print('channels =', pygame.mixer.get_num_channels())
 #iouyiture
 
 from battle import *
-from menu import menu_loop
+from menu import menu_loop, menu_load, cursor_handler
 
 MENU_CLICK = pygame.mixer.Sound('sound/click.wav')
 
@@ -107,16 +110,18 @@ while True:
   if code_bank == 0:
     screen.fill("blue")
     level.run()
+    textline = font.render("Press J or X to enter the items menu", False, (255, 255, 255))
+    screen.blit(textline, (25, 20))  #BGLAYER0
 
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         sys.exit()
       if event.type == pygame.KEYDOWN and input_allowed == True:
         
-        if event.key == pygame.K_j or event.key == pygame.K_z:
+        if event.key == pygame.K_j or event.key == pygame.K_x:
           code_bank = 1
           menu_BGM.play(-1)
-        if event.key == pygame.K_k or event.key == pygame.K_x:
+        if event.key == pygame.K_k or event.key == pygame.K_z:
           printB("No problem here.", " ", " ")
           MENU_CLICK.play()
 
@@ -131,20 +136,37 @@ while True:
     for event in pygame.event.get():
             if event.type == pygame.QUIT:
               sys.exit()
-            if event.type == pygame.KEYDOWN and input_allowed == True:
-              if event.key == pygame.K_j or event.key == pygame.K_z:
-                code_bank = 0
-                menu_BGM.fadeout(400)
+            if event.type == pygame.KEYDOWN:
+              if event.key == pygame.K_w or event.key == pygame.K_UP:  #0 is right. 1 is left. 2 is up. 3 is down
+                  cursor_handler(2)
+                  MENU_CLICK.play()
+              if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                  cursor_handler(1)
+                  MENU_CLICK.play()
 
-              if event.key == pygame.K_k or event.key == pygame.K_x:
+              if event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                  cursor_handler(3)
+                  MENU_CLICK.play()
+
+              if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                  cursor_handler(0)
+                  MENU_CLICK.play()
+
+              if event.key == pygame.K_j or event.key == pygame.K_x:
+                menu_BGM.fadeout(400)
+                code_bank = 2
+
+              if event.key == pygame.K_k or event.key == pygame.K_z:
                 MENU_CLICK.play()
+                menu_load(1)
                 code_bank = 2
                 menu_BGM.fadeout(200)
                 battle_music_init = False
-
+            
               if event.key == pygame.K_1:
-                print("WARNING: THE WINDOW IS NO LONGER RUNNING \n\n _______DEBUG MENU_______ \n 1. Replace item in slot \n ")
-                debug(int(input("Pick your number:")))
+                  print("WARNING: THE WINDOW IS NO LONGER RUNNING \n\n _______DEBUG MENU_______ \n 1. Replace item in slot \n ")
+                  debug(int(input("Pick your number:")))
+
 
   if code_bank == 2:
     battle_loop()

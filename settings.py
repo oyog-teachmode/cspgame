@@ -22,7 +22,7 @@ level_map = [
 scale_size = 1
 #
 
-screen_width = 768
+screen_width = 512
 screen_height = 512
 tile_size = 32
 
